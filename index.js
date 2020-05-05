@@ -28,11 +28,16 @@ app.get('/question/:id',(req,res)=>{
                 })
             }
             else{
-                res.send('no accepted answer')
+                if(body.is_answered===true){
+                    res.send('no accepted answer')
+                }
+                else{
+                    res.status(404).send({'question':'not found','answer':'not found'})
+                }
             }
         }
         else{
-            res.status(404).send('Id not found')
+            res.status(404).send({'question':'not found','answer':'not found'})
         }
     })
 })
