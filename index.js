@@ -32,7 +32,7 @@ app.get('/question/:id',(req,res)=>{
                     res.send('no accepted answer')
                 }
                 else{
-                    res.status(404).send({'question':'not found','answer':'not found'})
+                    res.status(404).send({'question':body.title,'answer':'not found'})
                 }
             }
         }
