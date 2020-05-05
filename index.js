@@ -19,20 +19,22 @@ app.get('/question/:id',(req,res)=>{
         if(response.items.length>0){
             let body=response.items[0]
             if(body.accepted_answer_id){
-                fetch('https://api.stackexchange.com/2.2/answers/23394294?site=stackoverflow')
+                fetch('https://api.stackexchange.com/2.2/answers/'+body.accepted_answer_id+'?site=stackoverflow')
                 .then(resp=>resp.json())
                 .then(answerres=>{
-                    let response_body=answerres.items[0]
-                    response_body.question_title=body.title
-                    res.send(response_body)
+                    res.status(200).send({'question':response,'answer':answerres,'accepted_answer':true})
                 })
             }
             else{
                 if(body.is_answered===true){
-                    res.send('no accepted answer')
+                    fetch('https://api.stackexchange.com/2.2/questions/'+id+'/answers?order=desc&sort=votes&site=stackoverflow')
+                    .then(resp=>resp.json())
+                    .then(answerres=>{
+                        res.status(200).send({'question':response,'answer':answerres,'accepted_answer':false})
+                    })
                 }
                 else{
-                    res.status(404).send({'question':body.title,'answer':'not found'})
+                    res.status(404).send({'question':response,'answer':'not found'})
                 }
             }
         }
