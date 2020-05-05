@@ -17,12 +17,12 @@ app.get('/question/:id',(req,res)=>{
     .then(resp=>resp.json())
     .then(response=>{
         if(response.items.length>0){
-            console.log('item')
+            let body=response.items[0]
+            res.send(body)
         }
         else{
-            console.log('no item')
+            res.status(404).send('Id not found')
         }
-        res.send(response)
     })
 })
 
