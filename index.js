@@ -18,7 +18,18 @@ app.get('/question/:id',(req,res)=>{
     .then(response=>{
         if(response.items.length>0){
             let body=response.items[0]
-            res.send(body)
+            if(body.accepted_answer_id){
+                fetch('https://api.stackexchange.com/2.2/answers/23394294?site=stackoverflow')
+                .then(resp=>resp.json())
+                .then(answerres=>{
+                    let response_body=answerres.items[0]
+                    response_body.question_title=body.title
+                    res.send(response_body)
+                })
+            }
+            else{
+                res.send('no accepted answer')
+            }
         }
         else{
             res.status(404).send('Id not found')
