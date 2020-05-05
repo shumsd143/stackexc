@@ -44,6 +44,7 @@ app.get('/question/:id',(req,res)=>{
     })
 })
 
-app.listen(9000,()=>{
-    console.log('server started')
-})
+
+const PORT =process.env.PORT || 5000;
+
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
